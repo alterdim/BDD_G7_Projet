@@ -1,0 +1,8 @@
+{
+    "host":"localhost",
+    "port":3307,
+    "user":"root",
+    "password":"my_password",
+    "database":"nyc2",
+    "autocommit":true
+}
