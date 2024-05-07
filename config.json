@@ -1,8 +1,8 @@
 {
-    "host":"localhost",
+    "host":"b8syyge5j3lftmivshyv-mysql.services.clever-cloud.com",
     "port":3306,
-    "user":"root",
-    "password":"0220",
+    "user":"ue0miys90w3ygca3",
+    "password":"kGZucvyjy1ZIm88sktZd",
     "database":"nyc2",
     "autocommit":true
 }
