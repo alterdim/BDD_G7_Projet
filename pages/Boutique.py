@@ -32,11 +32,15 @@ if st.button('Afficher Produits'):
 
 # Fonction pour obtenir un produit unique par identifiant
 st.subheader("Rechercher un produit par identifiant")
+query = "SELECT IDProduit FROM Produit"
+connection = connect_to_db2("boutique")
+product_ids = pd.read_sql(query, connection)
 product_id = st.text_input("Entrez l'identifiant du produit", '')
+product_id2 = st.selectbox("TEst", product_ids)
 if st.button('Trouver le produit'):
     if product_id:
         try:
-            product_df = get_product_by_id(product_id)
+            product_df = get_product_by_id(product_id2)
             if product_df.empty:
                 st.write("Aucun produit trouvé avec cet identifiant:", product_id)
             else:
