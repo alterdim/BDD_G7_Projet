@@ -68,8 +68,8 @@ def connect_to_db2(dbname):
     return mysql.connector.connect(
         host=dbconfig["host"],  # e.g., 'localhost' ou adresse IP
         database=dbname2,
-        user=st.secrets["db_username"],
-        password=st.secrets["db_password"],
+        user=st.secrets["DB_USERNAME"],
+        password=st.secrets["DB_PASSWORD"],
         port=dbconfig["port"]  #  MySQL port par défaut est 3306
     )
 
