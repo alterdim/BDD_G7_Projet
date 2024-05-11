@@ -12,6 +12,8 @@ def get_movies():
     data = pd.read_sql(query, connection)
     connection.close()
     return data
-
+if st.button('Afficher Cinémas'):
+    products_df = get_movies()
+    st.write(products_df)
 #  Interface utilisateur de Streamlit
 st.title("Vos cinémas")
