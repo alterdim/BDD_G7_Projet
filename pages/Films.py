@@ -21,8 +21,9 @@ def filter_movies_gender(gender_id):
 
 def get_genders():
     connection = connect_to_db2(dbname)
-    query = "SELECT nom_genre FROM genre"
+    query = "SELECT * FROM genre"
     data = pd.read_sql(query, connection, params=())
+    print(data)
     connection.close()
     return data
 
