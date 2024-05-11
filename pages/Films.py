@@ -21,7 +21,7 @@ def filter_movies_gender(gender_id):
 
 def get_genders():
     connection = connect_to_db2(dbname)
-    query = "SELECT * FROM genre"
+    query = "SELECT nom_genre FROM genre"
     data = pd.read_sql(query, connection, params=())
     connection.close()
     return data
@@ -37,5 +37,5 @@ st.title("Vos cinémas")
 # Recherche de film par genre(s)
 st.subheader("Rechercher un film par genre")
 movie_genders = get_genders()
-product_id2 = st.selectbox("TEst", movie_genders)
+product_id2 = st.selectbox("Genre", movie_genders)
 
