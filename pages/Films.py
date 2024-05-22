@@ -14,15 +14,15 @@ def get_movies():
 
 def filter_movies_gender(gender_id):
     connection = connect_to_db2(dbname)
-    query = "SELECT * FROM produit WHERE genre1 = %d OR genre2 = %d"
+    query = "SELECT * FROM film WHERE genre1 = %d OR genre2 = %d"
     data = pd.read_sql(query, connection, params=(gender_id,))
     connection.close()
     return data
 
 def get_genders():
     connection = connect_to_db2(dbname)
-    query = "SELECT * FROM genre"
-    data = pd.read_sql(query, connection, params=())
+    query = "SELECT nom_genre FROM genre"
+    data = pd.read_sql(query, connection)
     print(data)
     connection.close()
     return data

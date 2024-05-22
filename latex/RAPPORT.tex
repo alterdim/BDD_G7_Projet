@@ -2,13 +2,22 @@
 
 \usepackage{amsmath}
 \usepackage{amsfonts}
-
+\usepackage{hyperref}
 \usepackage{graphicx}
 \usepackage{xcolor}
 \usepackage{hyperref}
 \usepackage{siunitx}
 \usepackage{polynom}
 \usepackage[utf8]{inputenc}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+    pdftitle={Overleaf Example},
+    pdfpagemode=FullScreen,
+    }
 
 \title{Bases de Données \\ Cinémas genevois}
 
@@ -18,32 +27,73 @@
 
 \begin{document}
 \maketitle
-
+\pagebreak
+\tableofcontents
+\pagebreak
 \section{Description générale}
 Le projet est une base de données des cinémas genevois. Elle contient : 
 \begin{itemize}
-    \item les cinémas, leurs emplacments
+    \item les cinémas, leurs emplacements
     \item les salles des cinémas, leurs équipements spéciaux (type IMAX)
     \item les séances qui ont lieux dans ces salles, avec leurs horaires
     \item les films qui y sont diffusés, leurs genres, réalisateurs...
 \end{itemize}
 La base de données alimente une application dédiée aux cinéphiles genevois qui souhaitent
 effectuer des recherches liés à ces données. Il leur est possible de trier les films par genre,
-les cinémas par région, les salles par équipement spécifique pour trouver la séance qui leur convient le mieux.
+les cinémas par région, les salles par équipement spécifique pour trouver la séance qui leur convient le mieux. \\
+La base de données que nous avons créée utilise la technologie \href{https://www.mysql.com/}{MySQL}. Pour donner une meilleure
+idée d'une utilisation possible de cette base, nous rendons également une maquette d'application Web qui utilise le framework
+\href{https://streamlit.io/}{Streamlit}. Elle est disponible à \href{https://bddg7unige.streamlit.app/}{cette adresse} et son code source
+est également inclus dans le rendu du projet (voir README.md pour la build). La base de données est déployée
+sur le service gratuit Clever Cloud pour pouvoir être utilisée par l'application Streamlit.
 \pagebreak
-\section{Diagramme des cas d'utilisations}
+\section{Description des relations}
+Notre base de données comporte 6 relations en total. Nous allons les décrire et justifier une par une: 
+\subsection{Lieu}
+Cette relation comporte 6 attributs avec la clef "lieu{\_}id". Elle fournit à l'utilisateur les informations
+relatives à l'accès au cinéma : accéssibilité pour personnes à mobilité réduite, adresse, horaires ...
+\subsection{Salle}
+Cette relation dispose de 9 attributs avec la clef "salle{\_}id".
+Elle est liée à la relation 'lieu' grâce à la clef étrangère 'cinema{\_}id'. Cette clef permet de situer chaque salle
+dans un cinéma précis. Cette relation a plusieurs usages : elle offre des informations sur la capacité de la salle,
+la technologie utilisée (IMAX, ScreenX) mais aussi sur le prix des billets.
+\subsection{Séance}
+Cette relation comporte 6 attributs avec comme clef "seance{\_}id". Il s'agit d'une relation qui fournit des informations
+indispensables concernant la projection d'un film : elle indique le film et la salle (à travers les clefs étrangères "salle{\_}id"
+et "film{\_}id") et d'ailleurs elle affiche la date et l'heure de la séance, ainsi que la langue dans laquelle le film est projeté.
+\subsection{Film}
+Cette relation contient 9 attributs avec la clef "film{\_}id". Elle fournit à l'utilisateur les films diffusés.
+A part le titre du film, les informations notoires sont la durée, la date de sortie, le pays de production, l'âge minimal
+et le réalisateur ainsi qu'un ou deux acteurs. Toutes ces informations sont présentes pour permettre à l'utilisateur de filtrer selon des critères précis.
+\subsection{Genre}
+La relation genre est simple et ne comporte que deux attributs donc une est la clef "genre{\_}id". 
+Cette relation existe car certains films peuvent avoir plusieurs genres et d'autres un seul ou aucun. Pour éviter d'avoir 
+un nombre élevé d'attributs dans Film (Genre1 à Genre5) dont la plupart seraient NULL, nous avons choisi de créer une 
+relation entière avec des "id" de genre et des strings associés (pour la validation de données et éviter
+d'avoir 13 genres "comédie" avec des orthographes différentes).
+\subsection{FilmGenre}
+La relation film{\_}genre unit les relations Film et Genre pour attribuer un nombre indéterminé lors de la création de la BDD de genres à chaque film.
 
 \pagebreak
+\section{Diagramme des cas d'utilisations}
+\includegraphics*[scale=0.48]{images/Use-Case.drawio.png}
+\pagebreak
 \section{Diagramme des classes}
+\begin{center}
+    \includegraphics*[scale=0.5]{images/diagramme_classes.png} \\
+\end{center}
+Les détails de chaque classe sont inclus dans la \autoref{sec:4}.
 \pagebreak
 \section{Liste des attributs}
+Les clefs de chaque classe sont en {\color{blue} bleu}.
+\label{sec:4}
 \paragraph*{Cinema}
 \begin{center}
     \begin{tabular}{||c c c||} 
      \hline
      Attribut & Domaine & Synopsis\\ [0.5ex] 
      \hline\hline
-     cinema{\_}id & int(10) & Identifiant du cinéma \\ 
+     {\color{blue} cinema{\_}id} & int(10) & Identifiant du cinéma \\ 
      \hline
      cinema{\_}nom & varchar(32) & Nom du cinéma \\
      \hline
@@ -59,7 +109,7 @@ les cinémas par région, les salles par équipement spécifique pour trouver la
      \hline
      Attribut & Domaine & Synopsis\\ [0.5ex] 
      \hline\hline
-     salle{\_}id & int(10) & Identifiant de la salle \\ 
+     {\color{blue} salle{\_}id} & int(10) & Identifiant de la salle \\ 
      \hline
      salle{\_}nom & varchar(32) & Nom de la salle \\
      \hline
@@ -79,7 +129,7 @@ les cinémas par région, les salles par équipement spécifique pour trouver la
      \hline
      Attribut & Domaine & Synopsis\\ [0.5ex] 
      \hline\hline
-     séance{\_}id & int(10) & Identifiant de la séance \\ 
+     {\color{blue} seance{\_}id} & int(10) & Identifiant de la séance \\ 
      \hline
      cinema{\_}id & int(10) & Identifiant du cinéma \\
      \hline
@@ -93,13 +143,14 @@ les cinémas par région, les salles par équipement spécifique pour trouver la
      \hline
     \end{tabular}
 \end{center}
+\pagebreak
 \paragraph*{Film}
 \begin{center}
     \begin{tabular}{||c c c||} 
      \hline
      Attribut & Domaine & Synopsis\\ [0.5ex] 
      \hline\hline
-     film{\_}id & int(10) & Identifiant du film \\ 
+     {\color{blue} film{\_}id} & int(10) & Identifiant du film \\ 
      \hline
      titre & varchar(32) & Titre du film \\
      \hline
@@ -109,60 +160,134 @@ les cinémas par région, les salles par équipement spécifique pour trouver la
      \hline
      pays & varchar(32) & Pays du film \\
      \hline
-     réalisteur & varchar32 & Réalisateur du film \\
+     réalisteur & varchar(32) & Réalisateur du film \\
+     \hline
+     age{\_}minmimal & int & Age minimal pour voir le film \\
      \hline
     \end{tabular}
 \end{center}
 \paragraph*{Genre}
 \begin{center}
-    \begin{tabular}{||c c||} 
+    \begin{tabular}{||c c c||} 
      \hline
      Attribut & Domaine & Synopsis\\ [0.5ex] 
      \hline\hline
-     film{\_}id & int(10) & Identifiant du film \\ 
+     {\color{blue} genre{\_}id} & int & Identifiant du genre \\ 
      \hline
-     titre & varchar(32) & Titre du film \\
+     nom{\_}genre & varchar(50) & Nom textuel du genre (utile pour streamlit) \\
      \hline
-     duree & time & Durée du film \\
+    \end{tabular}
+\end{center}
+\paragraph*{FimGenre}
+\begin{center}
+    \begin{tabular}{||c c c||} 
      \hline
-     date{\_}sortie & date & Date de sortie du film \\
+     Attribut & Domaine & Synopsis\\ [0.5ex] 
+     \hline\hline
+     film\_id & int & Identifiant du film \\ 
      \hline
-     pays & varchar(32) & Pays du film \\
-     \hline
-     réalisteur & varchar32 & Réalisateur du film \\
+     genre{\_}id & int & Identifiant du genre \\
      \hline
     \end{tabular}
 \end{center}
 \pagebreak
 \section{Schémas des relations}
+\includegraphics*[scale=0.4]{images/schemarelations.png}
 \pagebreak
-\section{Description des relations et justifications 3FN}
-Notre base de données comporte 6 relations en total. Nous allons les décrire et justifier une par une: 
-\subsection*{Lieu}
-Cette relation comporte 6 attributs avec la clef "lieu{\_}id". Elle fournit à l'utilisateur les informations
-relatives à l'accès au cinéma : accéssibilité pour personnes à mobilité réduite, adresse, horaires ...
-\subsection*{Salle}
-Cette relation dispose de 9 attributs avec la clef "salle{\_}id".
-Elle est liée à la relation 'lieu' grâce à la clef étrangère 'cinema{\_}id'. Cette clef permet de situer chaque salle
-dans un cinéma précis. Cette relation a plusieurs usages : elle offre des informations sur la capacité de la salle,
-la technologie utilisée (IMAX, ScreenX) mais aussi sur le prix des billets.
-\subsection*{Séance}
-Cette relation comporte 6 attributs avec comme clef "seance{\_}id". Il s'agit d'une relation qui fournit des informations
-indispensables concernant la projection d'un film : elle indique le film et la salle (à travers les clefs étrangères "salle{\_}id"
-et "film{\_}id") et d'ailleurs elle affiche la date et l'heure de la séance, ainsi que la langue dans laquelle le film est projeté.
-\subsection*{Film}
-Cette relation contient 9 attributs avec la clef "film{\_}id". Elle fournit à l'utilisateur les films diffusés.
-A part le titre du film, les informations notoires sont la durée, la date de sortie, le pays de production, l'âge minimal
-et le réalisateur ainsi qu'un ou deux acteurs. Toutes ces informations sont présentes pour permettre à l'utilisateur de filtrer selon des critères précis.
-\subsection*{Genre}
-La relation genre est simple et ne comporte que deux attributs donc une est la clef "genre{\_}id". 
-Cette relation existe car certains films peuvent avoir plusieurs genres et d'autres un seul ou aucun. Pour éviter d'avoir 
-un nombre élevé d'attributs dans Film (Genre1 -> Genre5) dont la plupart seraient NULL, nous avons choisi de créer une 
-relation entière avec des "id" de genre et des strings associés (pour éviter des duplicatats lors de l'utilisation de la BDD)
-\subsection*{FilmGenre}
-La relation film{\_}genre unit les relations Film et Genre pour attribuer un nombre indéterminé lors de la création de la BDD de genres à chaque film.
+\section{Justifications 3FN}
+Afin de démontrer que les relations sont en 3FN, 
+nous avons besoin de démontrer qu'elles sont d'abord en 1FN, 2FN, et ensuite en 3FN.
+\subsection{Lieu}
+\textbf{Lieu(lieu{\_}id // nom, adresse, salles{\_}nb, npa, acces{\_}handicap)}
+\begin{itemize}
+    \item 1FN : La relation est en première forme normale car elle possède une clé (lieu{\_}id) 
+    et ses attributs sont atomiques (‘adresse’ dans ce cas est un ‘string’). 
+    Nous avons choisi d’avoir comme clé lieu{\_}id car le nom d’un cinéma pourrait 
+    changer au cours des années, mais le cinéma garderait la même adresse, les numéros de salles, etc. 
+    Donc c’est plus simple d’assigner un id qui reste inchangé. D’ailleurs, cela facilite aussi les requêtes SQL.
+    \item 2FN : Vu que la relation est en 1FN et que nous n'avons qu'un seul attribut clef, la relation est aussi
+    en deuxième forme normale.
+    \item 3FN : La relation est en 2FN et tous les attributs dépendent uniquement de la clef. (Le NPA ne dépend pas de l'adresse
+    puisqu'il existe des doublons d'adresses justement différenciés par le NPA en Suisse).
+\end{itemize}
+\subsection{Salle}
+\textbf{Salle(salle{\_}id // nom{\_}salle, lieu{\_}id, imax, screenx, capacite, prix{\_}plein, prix{\_}reduit, prix{\_}enfant)} \\
+\begin{itemize}
+    \item 1FN : La relation est en première forme normale car elle 
+    possède une clé (salle{\_}id) et ses attributs sont atomiques. 
+    Nous avons choisi d’avoir comme clé salle{\_}id car deux cinémas 
+    pourraient avoir le même nom pour une salle : par exemple, nous pourrions avoir la 
+    salle "A" au Nord-Sud et l’autre à Les Scala. Avec un id nous sommes sûrs d’avoir la salle d’un cinéma précis. 
+    \item 2FN : Vu que la relation est en 1FN et que nous n'avons qu'un seul attribut clef, la relation est aussi
+    en deuxième forme normale.
+    \item 3FN : la relation est en 2FN et tous les attributs dépendent de la clé. 
+    En effet, toutes les technologies (imax, screenx) dépendent de salle{\_}id et 
+    non pas du lieu{\_}id car un même cinéma peut avoir diverses salles équipées différemment. 
+    Et, comme mentionné avant, les attributs ne peuvent pas dépendre de "nom {\_}salle", 
+    car si nous avons deux mêmes noms de salle dans deux cinémas différents, 
+    on risque d’avoir des valeurs d’attributs qui ne correspondent pas à la réalité.
+\end{itemize}
+\subsection{Séance}
+\textbf{Seance(seance{\_}id//  salle{\_}id, film{\_}id, date{\_}seance, heure{\_}seance, vo)}
+\begin{itemize}
+    \item 1FN : La relation est en première forme normale car elle 
+    possède une clé (seance{\_}id) et ses attributs sont atomiques. 
+    Nous aurions pu utiliser comme clé (salle{\_}id film{\_}id date{\_}seance heure{\_}seance//) 
+    mais, si nous voulions utiliser la clé de la relation comme clé étrangère dans une autre relation, 
+    cela nous obligerait de répéter toutes les valeurs des attributs au lieu 
+    d’une simple clé comme seance{\_}id. Le choix d’une clé simplifie aussi les requêtes SQL. 
+    \item 2FN : Vu que la relation est en 1FN et que nous n'avons qu'un seul attribut clef, la relation est aussi
+    en deuxième forme normale.
+    \item 3FN : la relation est en 2FN et tous les attributs dépendent de la clé. Un même film{\_}id peut 
+    être transmis dans différentes salles à différentes dates et en 
+    différentes langues. Ce ne sera que le seance{\_}id qui pourra indiquer la juste combinaison. 
+\end{itemize}
+\pagebreak
+\subsection{Film}
+\textbf{Film(film{\_}id // titre, duree, date{\_}sortie, pays, acteur1, acteur2, realisateur, age{\_}minimal)}
+\begin{itemize}
+    \item 1FN : La relation est en première forme normale car elle possède une clé (film{\_}id) et 
+    ses attributs sont atomiques (réalisateur dans ce cas est un ‘string’). Nous aurions pu utiliser 
+    comme clé (titre date{\_}sortie//) mais, si nous voulions utiliser la clé de la relation Film comme 
+    clé étrangère dans une autre relation, cela nous obligerait de répéter les valeurs de ces attributs dans 
+    une autre relation au lieu d’une clé simple comme film{\_}id. Ce choix nous 
+    facilite les requêtes SQL et évite aussi des fautes des frappe qui pourraient arriver quand on saisit le nom du film. 
+    \item 2FN : Vu que la relation est en 1FN et que nous n'avons qu'un seul attribut clef, la relation est aussi
+    en deuxième forme normale.
+    \item 3FN : La relation est en 2FN et tous les attributs dépendent de la clé. 
+    En effet, l’attribut ‘date{\_}sortie’ ne peut dépendre de l’attribut ‘titre’ 
+    car nous pourrions avoir deux films avec le même titre sortis à deux dates différentes. 
+    Cela pourrait arriver si le cinéma décide de projeter l’ancien film avec le nouveau 
+    qui vient de sortir avec le même titre : 
+    par exemple, le film ‘Rebecca’ sorti en 1940 et en 2020.
+\end{itemize}
+\subsection{Genre}
+\textbf{Genre(genre{\_}id//nom{\_}genre)}
+\begin{itemize}
+    \item 1FN : La relation est en première forme normale car elle possède une clé (genre{\_}id) et ses attributs sont atomiques (‘nom{\_}genre’ est un string). 
+    \item 2FN : Vu que la relation est en 1FN et que nous n'avons qu'un seul attribut clef, la relation est aussi
+    en deuxième forme normale.
+    \item 3FN : La relation est en 2FN et le seul attribut de la relation dépend de la clé.
+\end{itemize}
+\pagebreak
+\subsection{FilmGenre}
+\textbf{FilmGenre(FilmID GenreID //)}
+\begin{itemize}
+    \item 1FN : La relation est en première forme normale car elle possède une clé (‘Film ID GenreID’); nous n’avons pas dans ce cas d’autres attributs. 
+    \item 2FN : Vu que la relation est en 1FN et que nous n'avons qu'un seul attribut clef, la relation est aussi
+    en deuxième forme normale.
+    \item 3FN : La relation est en 2FN et le seul attribut de la relation dépend de la clé.
+\end{itemize}
 \pagebreak
 \section{Requêtes SQL}
 \pagebreak
 \section{Conclusions}
+\subsection{Remarques sur les acteurs, réalisateurs, pays...}
+Il aurait été pertinent de créer des relations Acteur, Realisateur, Pays afin d'effectuer le même
+processus de validation des données que sur FilmGenre et s'assurer qu'il n'existe aucun doublon d'un acteur, par exemple. 
+Nous avons cependant jugé que trier les films par genre était le critère le plus déterminant et pour garder la base de données
+à une taille adéquate pour le projet, nous avons décidé de n'opérer cette validation que pour les genres. Pour une application
+complète qui veut offrir une recherche par réalisateur, acteur ou pays en s'assurant une correcte validation des données même pour un très
+grand nombre de films, il aurait fallu créer ces relations (et par conséquent une table FilmActeur pour inclure un nombre
+indéterminé d'acteurs par film)
 \end{document} 
