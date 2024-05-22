@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.3.15)  17 MAY 2024 15:01
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.3.15)  21 MAY 2024 15:59
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -290,7 +290,8 @@ Package translations Info: No language package found. I am going to use `english
 File: l3backend-pdftex.def 2024-03-14 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count301
 \l__pdf_internal_box=\box63
-) (./RAPPORT.aux)
+)
+No file RAPPORT.aux.
 \openout1 = `RAPPORT.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 19.
@@ -311,7 +312,7 @@ LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 19.
 LaTeX Font Info:    ... okay on input line 19.
 LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 19.
 LaTeX Font Info:    ... okay on input line 19.
- (c:/texlive/2024/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+(c:/texlive/2024/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count302
 \scratchdimen=\dimen163
@@ -337,7 +338,6 @@ Package grfext Info: Graphics extension search list:
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
 Package hyperref Info: Link coloring OFF on input line 19.
- (./RAPPORT.out) (./RAPPORT.out)
 \@outlinefile=\write3
 \openout3 = `RAPPORT.out'.
 
@@ -354,7 +354,71 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 21.
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) [1
 
-{c:/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{c:/texlive/2024/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}] [2] [3] [4] [5] [6] [7] [8] (./RAPPORT.aux)
+{c:/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{c:/texlive/2024/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}] [2] [3] [4]
+c:/Users/louis/Desktop/streamlit_bdd/BDD_G7_Projet/latex/RAPPORT.tex:120: Extra alignment tab has been changed to \cr.
+<recently read> \endtemplate 
+                             
+l.120      Attribut & Domaine &
+                                Synopsis\\ [0.5ex]
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+c:/Users/louis/Desktop/streamlit_bdd/BDD_G7_Projet/latex/RAPPORT.tex:122: Extra alignment tab has been changed to \cr.
+<recently read> \endtemplate 
+                             
+l.122      film{\_}id & int(10) &
+                                  Identifiant du film \\
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+c:/Users/louis/Desktop/streamlit_bdd/BDD_G7_Projet/latex/RAPPORT.tex:124: Extra alignment tab has been changed to \cr.
+<recently read> \endtemplate 
+                             
+l.124      titre & varchar(32) &
+                                 Titre du film \\
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+c:/Users/louis/Desktop/streamlit_bdd/BDD_G7_Projet/latex/RAPPORT.tex:126: Extra alignment tab has been changed to \cr.
+<recently read> \endtemplate 
+                             
+l.126      duree & time &
+                          Durée du film \\
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+c:/Users/louis/Desktop/streamlit_bdd/BDD_G7_Projet/latex/RAPPORT.tex:128: Extra alignment tab has been changed to \cr.
+<recently read> \endtemplate 
+                             
+l.128      date{\_}sortie & date &
+                                   Date de sortie du film \\
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+c:/Users/louis/Desktop/streamlit_bdd/BDD_G7_Projet/latex/RAPPORT.tex:130: Extra alignment tab has been changed to \cr.
+<recently read> \endtemplate 
+                             
+l.130      pays & varchar(32) &
+                                Pays du film \\
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+c:/Users/louis/Desktop/streamlit_bdd/BDD_G7_Projet/latex/RAPPORT.tex:132: Extra alignment tab has been changed to \cr.
+<recently read> \endtemplate 
+                             
+l.132      réalisteur & varchar32 &
+                                     Réalisateur du film \\
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+[5] [6] [7] [8] [9] [10] (./RAPPORT.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-03-14>
@@ -366,22 +430,22 @@ Package rerunfilecheck Warning: File `RAPPORT.out' has changed.
 (rerunfilecheck)                or use package `bookmark'.
 
 Package rerunfilecheck Info: Checksums for `RAPPORT.out':
-(rerunfilecheck)             Before: E6672B7BF3FA0154BC01A4D3707AEC94;819
-(rerunfilecheck)             After:  A70D8E5AECCD3B6CC7A3029AABA2226B;1162.
+(rerunfilecheck)             Before: <no file>
+(rerunfilecheck)             After:  40F24963A68900FFE57DFB29FA0751EA;1319.
  ) 
 Here is how much of TeX's memory you used:
- 13818 strings out of 474104
- 271082 string characters out of 5747502
- 1932496 words of memory out of 5000000
- 36044 multiletter control sequences out of 15000+600000
- 562208 words of font info for 52 fonts, out of 8000000 for 9000
+ 13846 strings out of 474104
+ 271352 string characters out of 5747502
+ 1940496 words of memory out of 5000000
+ 36058 multiletter control sequences out of 15000+600000
+ 567169 words of font info for 71 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,7n,79p,307b,900s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,7n,79p,306b,959s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb>
-Output written on RAPPORT.pdf (8 pages, 55269 bytes).
+Output written on RAPPORT.pdf (10 pages, 63815 bytes).
 PDF statistics:
- 91 PDF objects out of 1000 (max. 8388607)
- 72 compressed objects within 1 object stream
- 17 named destinations out of 1000 (max. 500000)
- 41 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 96 PDF objects out of 1000 (max. 8388607)
+ 75 compressed objects within 1 object stream
+ 30 named destinations out of 1000 (max. 500000)
+ 1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

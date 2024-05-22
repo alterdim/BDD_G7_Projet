@@ -32,14 +32,135 @@ effectuer des recherches liés à ces données. Il leur est possible de trier le
 les cinémas par région, les salles par équipement spécifique pour trouver la séance qui leur convient le mieux.
 \pagebreak
 \section{Diagramme des cas d'utilisations}
+
 \pagebreak
 \section{Diagramme des classes}
 \pagebreak
 \section{Liste des attributs}
+\paragraph*{Cinema}
+\begin{center}
+    \begin{tabular}{||c c c||} 
+     \hline
+     Attribut & Domaine & Synopsis\\ [0.5ex] 
+     \hline\hline
+     cinema{\_}id & int(10) & Identifiant du cinéma \\ 
+     \hline
+     cinema{\_}nom & varchar(32) & Nom du cinéma \\
+     \hline
+     salle{\_}nb & int(10) & Nombre de salles du cinéma\\
+     \hline
+     NPA & int(10) & Le code postal du cinéma [1ex] \\
+     \hline
+    \end{tabular}
+\end{center}
+\paragraph*{Salle}
+\begin{center}
+    \begin{tabular}{||c c c||} 
+     \hline
+     Attribut & Domaine & Synopsis\\ [0.5ex] 
+     \hline\hline
+     salle{\_}id & int(10) & Identifiant de la salle \\ 
+     \hline
+     salle{\_}nom & varchar(32) & Nom de la salle \\
+     \hline
+     cinema{\_}id & int(10) & Identifiant du cinéma\\
+     \hline
+     IMAX & bool & La salle est-elle équipée IMAX ? \\
+     \hline
+     ScreenX & bool & La salle est-ele équipée ScreenX ? \\
+     \hline
+     Capacité & int(10) & Capacité de la salle en personnes \\
+     \hline
+    \end{tabular}
+\end{center}
+\paragraph*{Séance}
+\begin{center}
+    \begin{tabular}{||c c c||} 
+     \hline
+     Attribut & Domaine & Synopsis\\ [0.5ex] 
+     \hline\hline
+     séance{\_}id & int(10) & Identifiant de la séance \\ 
+     \hline
+     cinema{\_}id & int(10) & Identifiant du cinéma \\
+     \hline
+     salle{\_}id & int(10) & Identifiant de la salle\\
+     \hline
+     film{\_}id & int(10) & Identifiant du film \\
+     \hline
+     date{\_}séance & date & Date de la séance \\
+     \hline
+     heure{\_}séance & heure & Heure de la séance \\
+     \hline
+    \end{tabular}
+\end{center}
+\paragraph*{Film}
+\begin{center}
+    \begin{tabular}{||c c c||} 
+     \hline
+     Attribut & Domaine & Synopsis\\ [0.5ex] 
+     \hline\hline
+     film{\_}id & int(10) & Identifiant du film \\ 
+     \hline
+     titre & varchar(32) & Titre du film \\
+     \hline
+     duree & time & Durée du film \\
+     \hline
+     date{\_}sortie & date & Date de sortie du film \\
+     \hline
+     pays & varchar(32) & Pays du film \\
+     \hline
+     réalisteur & varchar32 & Réalisateur du film \\
+     \hline
+    \end{tabular}
+\end{center}
+\paragraph*{Genre}
+\begin{center}
+    \begin{tabular}{||c c||} 
+     \hline
+     Attribut & Domaine & Synopsis\\ [0.5ex] 
+     \hline\hline
+     film{\_}id & int(10) & Identifiant du film \\ 
+     \hline
+     titre & varchar(32) & Titre du film \\
+     \hline
+     duree & time & Durée du film \\
+     \hline
+     date{\_}sortie & date & Date de sortie du film \\
+     \hline
+     pays & varchar(32) & Pays du film \\
+     \hline
+     réalisteur & varchar32 & Réalisateur du film \\
+     \hline
+    \end{tabular}
+\end{center}
 \pagebreak
 \section{Schémas des relations}
 \pagebreak
-\section{Justifications 3FN}
+\section{Description des relations et justifications 3FN}
+Notre base de données comporte 6 relations en total. Nous allons les décrire et justifier une par une: 
+\subsection*{Lieu}
+Cette relation comporte 6 attributs avec la clef "lieu{\_}id". Elle fournit à l'utilisateur les informations
+relatives à l'accès au cinéma : accéssibilité pour personnes à mobilité réduite, adresse, horaires ...
+\subsection*{Salle}
+Cette relation dispose de 9 attributs avec la clef "salle{\_}id".
+Elle est liée à la relation 'lieu' grâce à la clef étrangère 'cinema{\_}id'. Cette clef permet de situer chaque salle
+dans un cinéma précis. Cette relation a plusieurs usages : elle offre des informations sur la capacité de la salle,
+la technologie utilisée (IMAX, ScreenX) mais aussi sur le prix des billets.
+\subsection*{Séance}
+Cette relation comporte 6 attributs avec comme clef "seance{\_}id". Il s'agit d'une relation qui fournit des informations
+indispensables concernant la projection d'un film : elle indique le film et la salle (à travers les clefs étrangères "salle{\_}id"
+et "film{\_}id") et d'ailleurs elle affiche la date et l'heure de la séance, ainsi que la langue dans laquelle le film est projeté.
+\subsection*{Film}
+Cette relation contient 9 attributs avec la clef "film{\_}id". Elle fournit à l'utilisateur les films diffusés.
+A part le titre du film, les informations notoires sont la durée, la date de sortie, le pays de production, l'âge minimal
+et le réalisateur ainsi qu'un ou deux acteurs. Toutes ces informations sont présentes pour permettre à l'utilisateur de filtrer selon des critères précis.
+\subsection*{Genre}
+La relation genre est simple et ne comporte que deux attributs donc une est la clef "genre{\_}id". 
+Cette relation existe car certains films peuvent avoir plusieurs genres et d'autres un seul ou aucun. Pour éviter d'avoir 
+un nombre élevé d'attributs dans Film (Genre1 -> Genre5) dont la plupart seraient NULL, nous avons choisi de créer une 
+relation entière avec des "id" de genre et des strings associés (pour éviter des duplicatats lors de l'utilisation de la BDD)
+\subsection*{FilmGenre}
+La relation film{\_}genre unit les relations Film et Genre pour attribuer un nombre indéterminé lors de la création de la BDD de genres à chaque film.
 \pagebreak
 \section{Requêtes SQL}
 \pagebreak
