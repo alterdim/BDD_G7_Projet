@@ -85,21 +85,26 @@ La relation film{\_}genre unit les relations Film et Genre pour attribuer un nom
 Les détails de chaque classe sont inclus dans la \autoref{sec:4}.
 \pagebreak
 \section{Liste des attributs}
-Les clefs de chaque classe sont en {\color{blue} bleu}.
+Les clefs de chaque classe sont en {\color{blue} bleu}. On utilise le domaine "bool" qui n'existe pas vraiment
+sur certaines technologies SQL, qui sera alors remplacé par un tinyint(1).
 \label{sec:4}
-\paragraph*{Cinema}
+\paragraph*{Lieu}
 \begin{center}
     \begin{tabular}{||c c c||} 
      \hline
      Attribut & Domaine & Synopsis\\ [0.5ex] 
      \hline\hline
-     {\color{blue} cinema{\_}id} & int(10) & Identifiant du cinéma \\ 
+     {\color{blue} lieu{\_}id} & int & Identifiant du cinéma \\ 
      \hline
-     cinema{\_}nom & varchar(32) & Nom du cinéma \\
+     nom & varchar(50) & Nom du cinéma \\
+    \hline
+    adresse & varchar(50) & Adresse du cinéma \\
      \hline
-     salle{\_}nb & int(10) & Nombre de salles du cinéma\\
+     salle{\_}nb & int & Nombre de salles du cinéma\\
      \hline
-     NPA & int(10) & Le code postal du cinéma [1ex] \\
+     NPA & int & Le code postal du cinéma [1ex] \\
+     \hline
+     Acces{\_}handicap & bool & Le cinéma a-t-il un accès mobilité réduite ? \\
      \hline
     \end{tabular}
 \end{center}
@@ -109,58 +114,70 @@ Les clefs de chaque classe sont en {\color{blue} bleu}.
      \hline
      Attribut & Domaine & Synopsis\\ [0.5ex] 
      \hline\hline
-     {\color{blue} salle{\_}id} & int(10) & Identifiant de la salle \\ 
+     {\color{blue} salle{\_}id} & int & Identifiant de la salle \\ 
      \hline
-     salle{\_}nom & varchar(32) & Nom de la salle \\
+     salle{\_}nom & varchar(50) & Nom de la salle \\
      \hline
-     cinema{\_}id & int(10) & Identifiant du cinéma\\
+     cinema{\_}id & int & Identifiant du cinéma\\
      \hline
      IMAX & bool & La salle est-elle équipée IMAX ? \\
      \hline
      ScreenX & bool & La salle est-ele équipée ScreenX ? \\
      \hline
-     Capacité & int(10) & Capacité de la salle en personnes \\
+     Capacité & int & Capacité de la salle en personnes \\
+     \hline
+     prix{\_}plein & int & Prix tarif régulier \\
+     \hline
+     prix{\_}reduit & int & Prix tarif étudiant, senior... \\
+     \hline
+     prix{\_}enfant & int & Prix tarif enfant \\
      \hline
     \end{tabular}
 \end{center}
+\pagebreak
 \paragraph*{Séance}
 \begin{center}
     \begin{tabular}{||c c c||} 
      \hline
      Attribut & Domaine & Synopsis\\ [0.5ex] 
      \hline\hline
-     {\color{blue} seance{\_}id} & int(10) & Identifiant de la séance \\ 
+     {\color{blue} seance{\_}id} & int & Identifiant de la séance \\ 
      \hline
-     cinema{\_}id & int(10) & Identifiant du cinéma \\
+     cinema{\_}id & int & Identifiant du cinéma \\
      \hline
-     salle{\_}id & int(10) & Identifiant de la salle\\
+     salle{\_}id & int & Identifiant de la salle\\
      \hline
-     film{\_}id & int(10) & Identifiant du film \\
+     film{\_}id & int & Identifiant du film \\
      \hline
      date{\_}séance & date & Date de la séance \\
      \hline
      heure{\_}séance & heure & Heure de la séance \\
      \hline
+     vo & bool & La séance est-elle en Version Originale ? \\
+     \hline
     \end{tabular}
 \end{center}
-\pagebreak
 \paragraph*{Film}
 \begin{center}
     \begin{tabular}{||c c c||} 
      \hline
      Attribut & Domaine & Synopsis\\ [0.5ex] 
      \hline\hline
-     {\color{blue} film{\_}id} & int(10) & Identifiant du film \\ 
+     {\color{blue} film{\_}id} & int & Identifiant du film \\ 
      \hline
-     titre & varchar(32) & Titre du film \\
+     titre & varchar(50) & Titre du film \\
      \hline
      duree & time & Durée du film \\
      \hline
      date{\_}sortie & date & Date de sortie du film \\
      \hline
-     pays & varchar(32) & Pays du film \\
+     pays & varchar(50) & Pays du film \\
      \hline
-     réalisteur & varchar(32) & Réalisateur du film \\
+     acteur1 & varchar(50) & Acteur principal du film \\
+     \hline
+     acteur2 & varchar(50) & Acteur secondaire du film \\
+     \hline
+     réalisteur & varchar(50) & Réalisateur du film \\
      \hline
      age{\_}minmimal & int & Age minimal pour voir le film \\
      \hline
