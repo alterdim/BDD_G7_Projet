@@ -28,7 +28,7 @@ def get_genders():
     return data
 
 if st.button('Afficher Cinémas'):
-    products_df = get_movies()
+    products_df = filter_movies_gender()
     st.write(products_df)
 
     
