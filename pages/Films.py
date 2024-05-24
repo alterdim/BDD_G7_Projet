@@ -62,9 +62,8 @@ def get_actors():
 
 
 # Recherche de film par genre(s)
-st.subheader("Rechercher un film par genre")
 movie_genders = get_genders_dictionary()
-movie_genders["N'importe"] = -1
+movie_genders[""] = -1
 mvigenderSel = st.selectbox("Genre", movie_genders.keys(), index=18)
 mvicntrySel = st.selectbox("Acteur/Actrice", get_actors())
 
