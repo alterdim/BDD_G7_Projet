@@ -2,8 +2,9 @@ import streamlit as st
 import mysql.connector
 import pandas as pd
 from common import *
+#  Interface utilisateur de Streamlit
+st.title("Vos cinémas")
 
-dbname = "b8syyge5j3lftmivshyv"
 
 def get_movies():
     connection = connect_to_db2(dbname)
@@ -31,12 +32,13 @@ if st.button('Afficher Cinémas'):
     products_df = filter_movies_gender()
     st.write(products_df)
 
-    
-#  Interface utilisateur de Streamlit
-st.title("Vos cinémas")
-
 # Recherche de film par genre(s)
 st.subheader("Rechercher un film par genre")
 movie_genders = get_genders()
 product_id2 = st.selectbox("Genre", movie_genders)
+dbname = "b8syyge5j3lftmivshyv"
+
+
+    
+
 
