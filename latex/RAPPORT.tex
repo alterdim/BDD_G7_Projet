@@ -40,7 +40,7 @@ Le projet est une base de données des cinémas genevois. Elle contient :
 \end{itemize}
 La base de données alimente une application dédiée aux cinéphiles genevois qui souhaitent
 effectuer des recherches liés à ces données. Il leur est possible de trier les films par genre,
-les cinémas par région, les salles par équipement spécifique pour trouver la séance qui leur convient le mieux. \\
+les cinémas par emplacement, les salles par équipement spécifique pour trouver la séance qui leur convient le mieux. \\
 La base de données que nous avons créée utilise la technologie \href{https://www.mysql.com/}{MySQL}. Pour donner une meilleure
 idée d'une utilisation possible de cette base, nous rendons également une maquette d'application Web qui utilise le framework
 \href{https://streamlit.io/}{Streamlit}. Elle est disponible à \href{https://bddg7unige.streamlit.app/}{cette adresse} et son code source
@@ -71,7 +71,7 @@ Cette relation existe car certains films peuvent avoir plusieurs genres et d'aut
 un nombre élevé d'attributs dans Film (Genre1 à Genre5) dont la plupart seraient NULL, nous avons choisi de créer une 
 relation entière avec des "id" de genre et des strings associés (pour la validation de données et éviter
 d'avoir 13 genres "comédie" avec des orthographes différentes).
-\subsection{FilmGenre}
+\subsection{Film{\_}genre}
 La relation film{\_}genre unit les relations Film et Genre pour attribuer un nombre indéterminé lors de la création de la BDD de genres à chaque film.
 
 \pagebreak
@@ -178,15 +178,15 @@ Les clefs de chaque classe sont en {\color{blue} bleu}.
      \hline
     \end{tabular}
 \end{center}
-\paragraph*{FimGenre}
+\paragraph*{Film{\_}Genre}
 \begin{center}
     \begin{tabular}{||c c c||} 
      \hline
      Attribut & Domaine & Synopsis\\ [0.5ex] 
      \hline\hline
-     film\_id & int & Identifiant du film \\ 
+     {\color{blue}film\_id} & int & Identifiant du film \\ 
      \hline
-     genre{\_}id & int & Identifiant du genre \\
+     {\color{blue}genre{\_}id} & int & Identifiant du genre \\
      \hline
     \end{tabular}
 \end{center}
@@ -200,9 +200,9 @@ nous avons besoin de démontrer qu'elles sont d'abord en 1FN, 2FN, et ensuite en
 \subsection{Lieu}
 \textbf{Lieu(lieu{\_}id // nom, adresse, salles{\_}nb, npa, acces{\_}handicap)}
 \begin{itemize}
-    \item 1FN : La relation est en première forme normale car elle possède une clé (lieu{\_}id) 
+    \item 1FN : La relation est en première forme normale car elle possède une clef(lieu{\_}id) 
     et ses attributs sont atomiques (‘adresse’ dans ce cas est un ‘string’). 
-    Nous avons choisi d’avoir comme clé lieu{\_}id car le nom d’un cinéma pourrait 
+    Nous avons choisi d’avoir comme cleflieu{\_}id car le nom d’un cinéma pourrait 
     changer au cours des années, mais le cinéma garderait la même adresse, les numéros de salles, etc. 
     Donc c’est plus simple d’assigner un id qui reste inchangé. D’ailleurs, cela facilite aussi les requêtes SQL.
     \item 2FN : Vu que la relation est en 1FN et que nous n'avons qu'un seul attribut clef, la relation est aussi
@@ -214,13 +214,13 @@ nous avons besoin de démontrer qu'elles sont d'abord en 1FN, 2FN, et ensuite en
 \textbf{Salle(salle{\_}id // nom{\_}salle, lieu{\_}id, imax, screenx, capacite, prix{\_}plein, prix{\_}reduit, prix{\_}enfant)} \\
 \begin{itemize}
     \item 1FN : La relation est en première forme normale car elle 
-    possède une clé (salle{\_}id) et ses attributs sont atomiques. 
-    Nous avons choisi d’avoir comme clé salle{\_}id car deux cinémas 
+    possède une clef(salle{\_}id) et ses attributs sont atomiques. 
+    Nous avons choisi d’avoir comme clefsalle{\_}id car deux cinémas 
     pourraient avoir le même nom pour une salle : par exemple, nous pourrions avoir la 
     salle "A" au Nord-Sud et l’autre à Les Scala. Avec un id nous sommes sûrs d’avoir la salle d’un cinéma précis. 
     \item 2FN : Vu que la relation est en 1FN et que nous n'avons qu'un seul attribut clef, la relation est aussi
     en deuxième forme normale.
-    \item 3FN : la relation est en 2FN et tous les attributs dépendent de la clé. 
+    \item 3FN : la relation est en 2FN et tous les attributs dépendent de la clef. 
     En effet, toutes les technologies (imax, screenx) dépendent de salle{\_}id et 
     non pas du lieu{\_}id car un même cinéma peut avoir diverses salles équipées différemment. 
     Et, comme mentionné avant, les attributs ne peuvent pas dépendre de "nom {\_}salle", 
@@ -231,14 +231,14 @@ nous avons besoin de démontrer qu'elles sont d'abord en 1FN, 2FN, et ensuite en
 \textbf{Seance(seance{\_}id//  salle{\_}id, film{\_}id, date{\_}seance, heure{\_}seance, vo)}
 \begin{itemize}
     \item 1FN : La relation est en première forme normale car elle 
-    possède une clé (seance{\_}id) et ses attributs sont atomiques. 
-    Nous aurions pu utiliser comme clé (salle{\_}id film{\_}id date{\_}seance heure{\_}seance//) 
-    mais, si nous voulions utiliser la clé de la relation comme clé étrangère dans une autre relation, 
+    possède une clef(seance{\_}id) et ses attributs sont atomiques. 
+    Nous aurions pu utiliser comme clef(salle{\_}id film{\_}id date{\_}seance heure{\_}seance//) 
+    mais, si nous voulions utiliser la clefde la relation comme clefétrangère dans une autre relation, 
     cela nous obligerait de répéter toutes les valeurs des attributs au lieu 
-    d’une simple clé comme seance{\_}id. Le choix d’une clé simplifie aussi les requêtes SQL. 
+    d’une simple clefcomme seance{\_}id. Le choix d’une clefsimplifie aussi les requêtes SQL. 
     \item 2FN : Vu que la relation est en 1FN et que nous n'avons qu'un seul attribut clef, la relation est aussi
     en deuxième forme normale.
-    \item 3FN : la relation est en 2FN et tous les attributs dépendent de la clé. Un même film{\_}id peut 
+    \item 3FN : la relation est en 2FN et tous les attributs dépendent de la clef. Un même film{\_}id peut 
     être transmis dans différentes salles à différentes dates et en 
     différentes langues. Ce ne sera que le seance{\_}id qui pourra indiquer la juste combinaison. 
 \end{itemize}
@@ -246,15 +246,15 @@ nous avons besoin de démontrer qu'elles sont d'abord en 1FN, 2FN, et ensuite en
 \subsection{Film}
 \textbf{Film(film{\_}id // titre, duree, date{\_}sortie, pays, acteur1, acteur2, realisateur, age{\_}minimal)}
 \begin{itemize}
-    \item 1FN : La relation est en première forme normale car elle possède une clé (film{\_}id) et 
+    \item 1FN : La relation est en première forme normale car elle possède une clef(film{\_}id) et 
     ses attributs sont atomiques (réalisateur dans ce cas est un ‘string’). Nous aurions pu utiliser 
-    comme clé (titre date{\_}sortie//) mais, si nous voulions utiliser la clé de la relation Film comme 
-    clé étrangère dans une autre relation, cela nous obligerait de répéter les valeurs de ces attributs dans 
-    une autre relation au lieu d’une clé simple comme film{\_}id. Ce choix nous 
+    comme clef(titre date{\_}sortie//) mais, si nous voulions utiliser la clefde la relation Film comme 
+    clefétrangère dans une autre relation, cela nous obligerait de répéter les valeurs de ces attributs dans 
+    une autre relation au lieu d’une clefsimple comme film{\_}id. Ce choix nous 
     facilite les requêtes SQL et évite aussi des fautes des frappe qui pourraient arriver quand on saisit le nom du film. 
     \item 2FN : Vu que la relation est en 1FN et que nous n'avons qu'un seul attribut clef, la relation est aussi
     en deuxième forme normale.
-    \item 3FN : La relation est en 2FN et tous les attributs dépendent de la clé. 
+    \item 3FN : La relation est en 2FN et tous les attributs dépendent de la clef. 
     En effet, l’attribut ‘date{\_}sortie’ ne peut dépendre de l’attribut ‘titre’ 
     car nous pourrions avoir deux films avec le même titre sortis à deux dates différentes. 
     Cela pourrait arriver si le cinéma décide de projeter l’ancien film avec le nouveau 
@@ -264,27 +264,149 @@ nous avons besoin de démontrer qu'elles sont d'abord en 1FN, 2FN, et ensuite en
 \subsection{Genre}
 \textbf{Genre(genre{\_}id//nom{\_}genre)}
 \begin{itemize}
-    \item 1FN : La relation est en première forme normale car elle possède une clé (genre{\_}id) et ses attributs sont atomiques (‘nom{\_}genre’ est un string). 
+    \item 1FN : La relation est en première forme normale car elle possède une clef(genre{\_}id) et ses attributs sont atomiques (‘nom{\_}genre’ est un string). 
     \item 2FN : Vu que la relation est en 1FN et que nous n'avons qu'un seul attribut clef, la relation est aussi
     en deuxième forme normale.
-    \item 3FN : La relation est en 2FN et le seul attribut de la relation dépend de la clé.
+    \item 3FN : La relation est en 2FN et le seul attribut de la relation dépend de la clef.
 \end{itemize}
 \pagebreak
-\subsection{FilmGenre}
-\textbf{FilmGenre(FilmID GenreID //)}
+\subsection{Film{\_}genre}
+\textbf{Film{\_}genre(FilmID GenreID //)}
 \begin{itemize}
-    \item 1FN : La relation est en première forme normale car elle possède une clé (‘Film ID GenreID’); nous n’avons pas dans ce cas d’autres attributs. 
+    \item 1FN : La relation est en première forme normale car elle possède une clef(‘Film ID GenreID’); nous n’avons pas dans ce cas d’autres attributs. 
     \item 2FN : Vu que la relation est en 1FN et que nous n'avons qu'un seul attribut clef, la relation est aussi
     en deuxième forme normale.
-    \item 3FN : La relation est en 2FN et le seul attribut de la relation dépend de la clé.
+    \item 3FN : La relation est en 2FN et le seul attribut de la relation dépend de la clef.
 \end{itemize}
 \pagebreak
 \section{Requêtes SQL}
+Voici des exemples de requêtes SQL plus ou moins générales qui donnent une idée de ce dont la base de données est capable.
+\paragraph*{Les cinémas qui diffusent les films italiens pour lesquels l'âge minimal est de 12 ans}
+\begin{verbatim}
+SELECT DISTINCT l.nom  
+FROM lieu l 
+JOIN salle s ON s.lieu_id = l.lieu_id  
+JOIN seance s2 ON s2.salle_id = s.salle_id  
+JOIN film f ON f.film_id = s2.film_id  
+WHERE f.pays LIKE '%Italie%' AND f.age_minimal = 12 
+\end{verbatim}
+\paragraph*{Les réalisateurs qui ont joué dans leur propre film, ainsi que le nom du dit film}
+\begin{verbatim}
+SELECT realisateur, titre 
+FROM film f  
+WHERE FIND_IN_SET(f.acteur1, f.realisateur) > 0 
+OR FIND_IN_SET(f.acteur2, f.realisateur) > 0 
+\end{verbatim}
+On utilise FIND IN SET car les films ont parfois plusieurs réalisateurs, 
+c'est donc une liste qui se trouve dans la colonne réalisateur.
+\paragraph*{Les films et leurs genres avec une date de sortie en janvier 2024, qui sont encore diffusés entre le 13 et 19 mai}
+\begin{verbatim}
+SELECT f.titre, GROUP_CONCAT(DISTINCT g.nom_genre SEPARATOR ', ') AS genres 
+FROM seance s  
+JOIN film f ON f.film_id = s.film_id  
+LEFT JOIN film_genre fg ON fg.film_id = f.film_id  
+LEFT JOIN genre g ON g.genre_id = fg.genre_id  
+WHERE f.date_sortie BETWEEN '2024-01-01' AND '2024-01-31' 
+AND s.date_seance BETWEEN '2024-05-13' AND '2024-05-19'  
+GROUP BY f.titre 
+\end{verbatim}
+\paragraph*{Les films d'animation sortis en l'an 2000}
+\begin{verbatim}
+SELECT f.titre
+FROM film f  
+JOIN film_genre fg ON fg.film_id = f.film_id  
+JOIN genre g ON g.genre_id = fg.genre_id  
+WHERE g.nom_genre = 'Dessin animé' AND f.date_sortie BETWEEN 
+'2000-01-01' AND '2000-12-31' 
+\end{verbatim}
+\paragraph*{Le nombre moyen de séances d'un film sorti le 8 mai 2024 entre sa sortie et le 14 mai, par cinéma}
+\begin{verbatim}
+WITH seance_nb AS( 
+SELECT f.titre, s2.lieu_id, COUNT(*) AS Nb 
+FROM seance s  
+JOIN film f ON f.film_id = s.film_id  
+JOIN salle s2 ON s2.salle_id = s.salle_id  
+WHERE f.date_sortie = '2024-05-08' AND s.date_seance BETWEEN 
+'2024-05-08' AND '2024-05-14' 
+GROUP BY s.film_id, s2.lieu_id  
+) 
+SELECT l.nom, AVG(Nb) AS nombre_moyen_de_seances_pour_un_nouveau_film 
+FROM seance_nb 
+JOIN lieu l ON l.lieu_id = seance_nb.lieu_id 
+GROUP BY seance_nb.lieu_id 
+\end{verbatim}
+\paragraph*{Tous les films suisses sortis au 21ème siècle}
+\begin{verbatim}
+SELECT titre 
+FROM film f  
+WHERE date_sortie >= 2001-01-01 AND pays LIKE '%Suisse%' 
+\end{verbatim}
+\pagebreak
+\paragraph*{Les acteurs jouant dans plusieurs films. Trier par nombre de films joués.}
+\begin{verbatim}
+SELECT acteur, COUNT(*) as nb_film  
+FROM (  
+SELECT f.acteur1 AS acteur  
+FROM film f  
+UNION ALL  
+SELECT f.acteur2 AS acteur  
+FROM film f  
+) AS acteurs  
+WHERE acteur IS NOT NULL  
+GROUP BY acteur  
+HAVING nb_film > 1; 
+\end{verbatim}
+\paragraph*{Les séances (Titre, heure, lieu, salle et prix) du 17 mai à partir de 17h en VO avec Drame comme l'un des genres du film}
+\begin{verbatim}
+SELECT f.titre, s.heure_seance, l.nom, s2.nom_salle, s2.prix_plein, 
+s2.prix_reduit, s2.prix_enfant  
+FROM seance s  
+JOIN film f ON f.film_id = s.film_id  
+JOIN film_genre fg ON fg.film_id = f.film_id  
+JOIN genre g ON g.genre_id = fg.genre_id  
+JOIN salle s2 ON s2.salle_id = s.salle_id  
+JOIN lieu l ON l.lieu_id = s2.lieu_id  
+WHERE g.nom_genre ='Drame' AND s.date_seance = '2024-05-17' 
+AND s.heure_seance >= '17:00' AND s.vo = true 
+\end{verbatim}
+\pagebreak
+\paragraph*{Le nombre moyen de séances par jour et par cinéma pour la semaine du 13 au 19 mai}
+\begin{verbatim}
+WITH nb_jour AS ( 
+SELECT l.nom, s.date_seance, COUNT(*) AS nb 
+FROM seance s  
+JOIN salle s2 ON s2.salle_id = s.salle_id 
+JOIN lieu l ON l.lieu_id = s2.lieu_id 
+WHERE s.date_seance BETWEEN '2024-05-13' AND '2024-05-19' 
+GROUP BY l.nom, s.date_seance  
+) 
+SELECT nom, AVG(nb) AS moyenne_par_jour 
+FROM nb_jour 
+GROUP BY nb_jour.nom
+\end{verbatim}
+\paragraph*{Les 5 salles ayant la plus grande capacité}
+\begin{verbatim}
+SELECT l.nom, s.nom_salle, s.capacite  
+FROM salle s  
+JOIN lieu l ON l.lieu_id = s.lieu_id  
+ORDER BY s.capacite DESC 
+LIMIT 5; 
+\end{verbatim}
+\paragraph*{Le nombre de films sortis en 2024 par genre}
+\begin{verbatim}
+SELECT g.nom_genre, COUNT(*) AS nb 
+FROM film_genre fg  
+JOIN genre g ON g.genre_id = fg.genre_id  
+JOIN film f ON f.film_id = fg.film_id  
+WHERE f.date_sortie BETWEEN '2024-01-01' AND '2024-12-31' 
+GROUP BY g.nom_genre 
+ORDER BY nb ASC 
+\end{verbatim}
 \pagebreak
 \section{Conclusions}
 \subsection{Remarques sur les acteurs, réalisateurs, pays...}
 Il aurait été pertinent de créer des relations Acteur, Realisateur, Pays afin d'effectuer le même
-processus de validation des données que sur FilmGenre et s'assurer qu'il n'existe aucun doublon d'un acteur, par exemple. 
+processus de validation des données que sur Film{\_}genre et s'assurer qu'il n'existe aucun doublon d'un acteur, par exemple. 
 Nous avons cependant jugé que trier les films par genre était le critère le plus déterminant et pour garder la base de données
 à une taille adéquate pour le projet, nous avons décidé de n'opérer cette validation que pour les genres. Pour une application
 complète qui veut offrir une recherche par réalisateur, acteur ou pays en s'assurant une correcte validation des données même pour un très
