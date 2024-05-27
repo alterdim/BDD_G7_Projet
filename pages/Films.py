@@ -6,6 +6,11 @@ dbname = "b8syyge5j3lftmivshyv"
 #  Interface utilisateur de Streamlit
 st.title("Recherche de films")
 
+st.markdown(
+    """
+    Il est ici possible d'exécuter les requêtes SQL de test présentées dans la dernière section du PDF du projet.
+    """
+)
 
 def get_movies():
     connection = connect_to_db2(dbname)
