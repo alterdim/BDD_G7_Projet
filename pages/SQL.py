@@ -6,7 +6,11 @@ dbname = "b8syyge5j3lftmivshyv"
 #  Interface utilisateur de Streamlit
 st.title("Requêtes SQL de test")
 
-
+st.markdown(
+    """
+    Il est ici possible d'exécuter les requêtes SQL de test présentées dans la dernière section du PDF du projet.
+    """
+)
 
 def sql_test1():
     connection = connect_to_db2(dbname)
