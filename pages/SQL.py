@@ -4,7 +4,9 @@ import pandas as pd
 from common import *
 dbname = "b8syyge5j3lftmivshyv"
 #  Interface utilisateur de Streamlit
-st.title("Recherche de séances")
+st.title("Requêtes SQL de test")
+
+
 
 def sql_test1():
     connection = connect_to_db2(dbname)
@@ -118,7 +120,7 @@ WHERE f.date_sortie BETWEEN '2024-01-01' AND '2024-12-31'
 GROUP BY g.nom_genre
 ORDER BY nb ASC'''}
 
-movieSel = st.selectbox("Requêtes SQL numéro", tests)
+movieSel = st.selectbox("Requêtes SQL", tests)
 
 if st.button('Tester la requête'):
     connection = connect_to_db2(dbname)
