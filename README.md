@@ -1,5 +1,7 @@
-# demo_streamlit
+# BDD PROJET GROUPE 7
 
+L'application est normalement host ici : https://bddg7unige.streamlit.app/ donc à priori il n'y a pas besoin de la build
+soi-même. Pour la tester en local, il faut utiliser le fichier cinema.sql et remplacer bddname par cinema dans Films.py et Seances.py.
 
 Installation de Python 3
 https://www.python.org/downloads/
@@ -51,6 +53,7 @@ Lancement de streamlit depuis un terminal (Ex Power Shell):
 	streamlit run ./hello.py
 
 Lancer le navigateur à l'adresse http://localhost:8501/
+
 
 
 

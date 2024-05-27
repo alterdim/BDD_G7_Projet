@@ -9,6 +9,7 @@
 \usepackage{siunitx}
 \usepackage{polynom}
 \usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
 
 \hypersetup{
     colorlinks=true,
@@ -45,7 +46,11 @@ La base de données que nous avons créée utilise la technologie \href{https://
 idée d'une utilisation possible de cette base, nous rendons également une maquette d'application Web qui utilise le framework
 \href{https://streamlit.io/}{Streamlit}. Elle est disponible à \href{https://bddg7unige.streamlit.app/}{cette adresse} et son code source
 est également inclus dans le rendu du projet (voir README.md pour la build). La base de données est déployée
-sur le service gratuit Clever Cloud pour pouvoir être utilisée par l'application Streamlit.
+sur le service gratuit Clever Cloud pour pouvoir être utilisée par l'application Streamlit.  \\
+
+Les données de la base sont un échantillon représentatif des sorties de films de ces derniers mois. Dans le cas 
+d'un déploiement pratique de cette application, il faudrait qu'elle contienne idéalement autant de films que possible mais
+ceux qui sont présents actuellement suffisent amplement à présenter les fonctionnalités de la base.
 \pagebreak
 \section{Description des relations}
 Notre base de données comporte 6 relations en total. Nous allons les décrire et justifier une par une: 
@@ -73,17 +78,42 @@ relation entière avec des "id" de genre et des strings associés (pour la valid
 d'avoir 13 genres "comédie" avec des orthographes différentes).
 \subsection{Film{\_}genre}
 La relation film{\_}genre unit les relations Film et Genre pour attribuer un nombre indéterminé lors de la création de la BDD de genres à chaque film.
-
-\pagebreak
 \section{Diagramme des cas d'utilisations}
 \includegraphics*[scale=0.48]{images/Use-Case.drawio.png}
-\pagebreak
+
+
+Dans les cas d’utilisation, nous avons choisi deux acteurs principaux : 
+le client et l’administrateur.  
+Pour ce qui concerne le client, 
+nous avons envisagé comme cas d’utilisation : 
+consulter le prix d’un billet, chercher l’horaire d’un film, 
+chercher un genre particulier (par exemple s’il veut lancer une 
+recherche de tous les films d’horreur qui sont disponibles). 
+D'autres cas d’utilisation sont la recherche d’un cinéma et la recherche 
+d’un film : dans le premier cas, le client pourrait choisir de 
+chercher un cinéma qui a un accès handicap (le fait d’être optionnel est 
+marqué par la relation <<extend>>) ; dans le deuxième cas, lorsqu’il 
+cherche un film, le client a l’option de chercher aussi le genre d’un film 
+s’il désire. Néanmoins, afin de chercher un film, il doit d’abord consulter 
+la liste des films.  \\
+ 
+Pour ce qui concerne l’administrateur du système, il y a plusieurs cas d’utilisation 
+: modifier le prix d’un billet, ajouter une nouvelle séance,
+ effacer une séance, changer l’adresse d’un cinéma 
+ (si par exemple le cinéma est déplacé à une nouvelle adresse), 
+ modifier le numéro de salles disponibles (ceci peut être dû à plusieurs raisons comme 
+ l’ajout d’une nouvelle salle, son entretien ou dans le cas d’une panne), modifier 
+ l’âge minimal pour un film (par exemple suite à des plaintes de la part des clients), 
+ et modifier un acteur (cela pourrait arriver dans le cas où un acteur décide de 
+ changer son nom d'artiste, s’il/elle se marie, etc.). 
+ Certains cas d’utilisation méritent un peu plus de précisions. 
+ Par exemple, modifier la liste des films engendre un choix de la part 
+ de l’administrateur : il peut choisir entre effacer un film ou en ajouter. Cependant, il ne peut modifier la liste sans avoir consulté la liste des films, d’où la relation <<include>>. Lorsqu’on veut modifier une séance, le programme doit nous demander si on veut modifier l’heure ou la date. Ceci est très pratique : nous pourrions imaginer que lorsqu’un nouveau film sort, nous aimerions le projeter chaque mardi et jeudi pendant 4 mois. Cependant, nous pourrions avoir oublié qu’un mardi est un jour férié et donc soit nous avons des horaires réduits soit le cinéma est fermé. Cette option nous permet de changer facilement l’horaire et/ou la date. 
+
 \section{Diagramme des classes}
-\begin{center}
-    \includegraphics*[scale=0.5]{images/diagramme_classes.png} \\
-\end{center}
-Les détails de chaque classe sont inclus dans la \autoref{sec:4}.
-\pagebreak
+    \includegraphics*[scale=0.7]{images/diagramme_classes.png}
+Les détails de chaque classe sont inclus dans la section suivante.
+
 \section{Liste des attributs}
 Les clefs de chaque classe sont en {\color{blue} bleu}. On utilise le domaine "bool" qui n'existe pas vraiment
 sur certaines technologies SQL, qui sera alors remplacé par un tinyint(1).
@@ -94,17 +124,17 @@ sur certaines technologies SQL, qui sera alors remplacé par un tinyint(1).
      \hline
      Attribut & Domaine & Synopsis\\ [0.5ex] 
      \hline\hline
-     {\color{blue} lieu{\_}id} & int & Identifiant du cinéma \\ 
+     {\color{blue} lieu{\_}id} & big int & Identifiant du cinéma \\ 
      \hline
      nom & varchar(50) & Nom du cinéma \\
     \hline
-    adresse & varchar(50) & Adresse du cinéma \\
+     adresse & varchar(50) & Adresse du cinéma \\
      \hline
      salle{\_}nb & int & Nombre de salles du cinéma\\
      \hline
      NPA & int & Le code postal du cinéma [1ex] \\
      \hline
-     Acces{\_}handicap & bool & Le cinéma a-t-il un accès mobilité réduite ? \\
+     acces{\_}handicap & bool & Le cinéma a-t-il un accès mobilité réduite ? \\
      \hline
     \end{tabular}
 \end{center}
@@ -122,9 +152,9 @@ sur certaines technologies SQL, qui sera alors remplacé par un tinyint(1).
      \hline
      IMAX & bool & La salle est-elle équipée IMAX ? \\
      \hline
-     ScreenX & bool & La salle est-ele équipée ScreenX ? \\
+     screenX & bool & La salle est-ele équipée ScreenX ? \\
      \hline
-     Capacité & int & Capacité de la salle en personnes \\
+     capacité & int & Capacité de la salle en personnes \\
      \hline
      prix{\_}plein & int & Prix tarif régulier \\
      \hline
@@ -149,9 +179,9 @@ sur certaines technologies SQL, qui sera alors remplacé par un tinyint(1).
      \hline
      film{\_}id & int & Identifiant du film \\
      \hline
-     date{\_}séance & date & Date de la séance \\
+     date{\_}seance & date & Date de la séance \\
      \hline
-     heure{\_}séance & heure & Heure de la séance \\
+     heure{\_}seance & heure & Heure de la séance \\
      \hline
      vo & bool & La séance est-elle en Version Originale ? \\
      \hline
@@ -210,6 +240,28 @@ sur certaines technologies SQL, qui sera alors remplacé par un tinyint(1).
 \pagebreak
 \section{Schémas des relations}
 \includegraphics*[scale=0.4]{images/schemarelations.png}
+\paragraph*{{\color{cyan}lieu{\_}id}}
+\begin{itemize}
+    \item \textbf{{\color{cyan}lieu{\_}id}} dans la table Lieu est appelé clé primaire.
+    \item \textbf{{\color{cyan}lieu{\_}id}} dans la table Salle est appelé clé étrangère.
+\end{itemize}
+\paragraph*{{\color{magenta}salle{\_}id}}
+\begin{itemize}
+    \item \textbf{{\color{magenta}salle{\_}id}} dans la table Salle est appelé clé primaire.
+    \item \textbf{{\color{magenta}salle{\_}id}} dans la table Seance est appelé clé étrangère.
+\end{itemize}
+\pagebreak
+\paragraph*{{\color{orange}film{\_}id}}
+\begin{itemize}
+    \item \textbf{{\color{orange}film{\_}id}} dans la table Film est appelé clé primaire.
+    \item \textbf{{\color{orange}film{\_}id}} dans la table Film{\_}Genre est appelé clé primaire.
+    \item \textbf{{\color{orange}film{\_}id}} dans la table Seance est appelé clé étrangère.
+\end{itemize}
+\paragraph*{{\color{violet}genre{\_}id}}
+\begin{itemize}
+    \item \textbf{{\color{violet}genre{\_}id}} dans la table Genre est appelé clé primaire.
+    \item \textbf{{\color{violet}genre{\_}id}} dans la table Film{\_}Genre est appelé clé étrangère.
+\end{itemize}
 \pagebreak
 \section{Justifications 3FN}
 Afin de démontrer que les relations sont en 3FN, 
@@ -298,7 +350,8 @@ nous avons besoin de démontrer qu'elles sont d'abord en 1FN, 2FN, et ensuite en
 \pagebreak
 \section{Requêtes SQL}
 Voici des exemples de requêtes SQL plus ou moins générales qui donnent une idée de ce dont la base de données est capable.
-\paragraph*{Les cinémas qui diffusent les films italiens pour lesquels l'âge minimal est de 12 ans}
+Ces requêtes peuvent être effectuées automatiquement sur le site de l'application à \href{https://bddg7unige.streamlit.app/SQL}{cette adresse}.
+\paragraph*{1. Les cinémas qui diffusent les films italiens pour lesquels l'âge minimal est de 12 ans}
 \begin{verbatim}
 SELECT DISTINCT l.nom  
 FROM lieu l 
@@ -307,7 +360,7 @@ JOIN seance s2 ON s2.salle_id = s.salle_id
 JOIN film f ON f.film_id = s2.film_id  
 WHERE f.pays LIKE '%Italie%' AND f.age_minimal = 12 
 \end{verbatim}
-\paragraph*{Les réalisateurs qui ont joué dans leur propre film, ainsi que le nom du dit film}
+\paragraph*{2. Les réalisateurs qui ont joué dans leur propre film, ainsi que le nom du dit film}
 \begin{verbatim}
 SELECT realisateur, titre 
 FROM film f  
@@ -316,7 +369,7 @@ OR FIND_IN_SET(f.acteur2, f.realisateur) > 0
 \end{verbatim}
 On utilise FIND IN SET car les films ont parfois plusieurs réalisateurs, 
 c'est donc une liste qui se trouve dans la colonne réalisateur.
-\paragraph*{Les films et leurs genres avec une date de sortie en janvier 2024, qui sont encore diffusés entre le 13 et 19 mai}
+\paragraph*{3. Les films et leurs genres avec une date de sortie en janvier 2024, qui sont encore diffusés entre le 13 et 19 mai}
 \begin{verbatim}
 SELECT f.titre, GROUP_CONCAT(DISTINCT g.nom_genre SEPARATOR ', ') AS genres 
 FROM seance s  
@@ -327,7 +380,7 @@ WHERE f.date_sortie BETWEEN '2024-01-01' AND '2024-01-31'
 AND s.date_seance BETWEEN '2024-05-13' AND '2024-05-19'  
 GROUP BY f.titre 
 \end{verbatim}
-\paragraph*{Les films d'animation sortis en l'an 2000}
+\paragraph*{4. Les films d'animation sortis en l'an 2000}
 \begin{verbatim}
 SELECT f.titre
 FROM film f  
@@ -336,7 +389,7 @@ JOIN genre g ON g.genre_id = fg.genre_id
 WHERE g.nom_genre = 'Dessin animé' AND f.date_sortie BETWEEN 
 '2000-01-01' AND '2000-12-31' 
 \end{verbatim}
-\paragraph*{Le nombre moyen de séances d'un film sorti le 8 mai 2024 entre sa sortie et le 14 mai, par cinéma}
+\paragraph*{5. Le nombre moyen de séances d'un film sorti le 8 mai 2024 entre sa sortie et le 14 mai, par cinéma}
 \begin{verbatim}
 WITH seance_nb AS( 
 SELECT f.titre, s2.lieu_id, COUNT(*) AS Nb 
@@ -352,14 +405,14 @@ FROM seance_nb
 JOIN lieu l ON l.lieu_id = seance_nb.lieu_id 
 GROUP BY seance_nb.lieu_id 
 \end{verbatim}
-\paragraph*{Tous les films suisses sortis au 21ème siècle}
+\paragraph*{6. Tous les films suisses sortis au 21ème siècle}
 \begin{verbatim}
 SELECT titre 
 FROM film f  
 WHERE date_sortie >= 2001-01-01 AND pays LIKE '%Suisse%' 
 \end{verbatim}
 \pagebreak
-\paragraph*{Les acteurs jouant dans plusieurs films. Trier par nombre de films joués.}
+\paragraph*{7. Les acteurs jouant dans plusieurs films. Trier par nombre de films joués.}
 \begin{verbatim}
 SELECT acteur, COUNT(*) as nb_film  
 FROM (  
@@ -373,7 +426,7 @@ WHERE acteur IS NOT NULL
 GROUP BY acteur  
 HAVING nb_film > 1; 
 \end{verbatim}
-\paragraph*{Les séances (Titre, heure, lieu, salle et prix) du 17 mai à partir de 17h en VO avec Drame comme l'un des genres du film}
+\paragraph*{8. Les séances (Titre, heure, lieu, salle et prix) du 17 mai à partir de 17h en VO avec Drame comme l'un des genres du film}
 \begin{verbatim}
 SELECT f.titre, s.heure_seance, l.nom, s2.nom_salle, s2.prix_plein, 
 s2.prix_reduit, s2.prix_enfant  
@@ -387,7 +440,7 @@ WHERE g.nom_genre ='Drame' AND s.date_seance = '2024-05-17'
 AND s.heure_seance >= '17:00' AND s.vo = true 
 \end{verbatim}
 \pagebreak
-\paragraph*{Le nombre moyen de séances par jour et par cinéma pour la semaine du 13 au 19 mai}
+\paragraph*{9. Le nombre moyen de séances par jour et par cinéma pour la semaine du 13 au 19 mai}
 \begin{verbatim}
 WITH nb_jour AS ( 
 SELECT l.nom, s.date_seance, COUNT(*) AS nb 
@@ -401,7 +454,7 @@ SELECT nom, AVG(nb) AS moyenne_par_jour
 FROM nb_jour 
 GROUP BY nb_jour.nom
 \end{verbatim}
-\paragraph*{Les 5 salles ayant la plus grande capacité}
+\paragraph*{10. Les 5 salles ayant la plus grande capacité}
 \begin{verbatim}
 SELECT l.nom, s.nom_salle, s.capacite  
 FROM salle s  
@@ -409,7 +462,7 @@ JOIN lieu l ON l.lieu_id = s.lieu_id
 ORDER BY s.capacite DESC 
 LIMIT 5; 
 \end{verbatim}
-\paragraph*{Le nombre de films sortis en 2024 par genre}
+\paragraph*{11. Le nombre de films sortis en 2024 par genre}
 \begin{verbatim}
 SELECT g.nom_genre, COUNT(*) AS nb 
 FROM film_genre fg  
@@ -421,7 +474,14 @@ ORDER BY nb ASC
 \end{verbatim}
 \pagebreak
 \section{Conclusions}
-\subsection{Remarques sur les acteurs, réalisateurs, pays...}
+\subsection{Commentaires de fin}
+La base de données (et la maquette d'application associée) proposent un 
+modèle évolutif simple mais efficace qui peut accompagner les évolutions 
+de l'offre cinématographique genevoise
+Elle est relativement simple à maintenir grace à des règles d'intégrité assez strictes mais suffisamment souple pour
+permettre à l'application associée d'obtenir facilement les données qui comptent vraiment pour les utilisateurs (les séances et le
+tri de films par genre).
+\subsection{Limites}
 Il aurait été pertinent de créer des relations Acteur, Realisateur, Pays afin d'effectuer le même
 processus de validation des données que sur Film{\_}genre et s'assurer qu'il n'existe aucun doublon d'un acteur, par exemple. 
 Nous avons cependant jugé que trier les films par genre était le critère le plus déterminant et pour garder la base de données
